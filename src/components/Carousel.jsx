@@ -6,6 +6,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import img1 from '../store/1.jpg';
 import img2 from '../store/2.jpg';
 import img3 from '../store/3.jpg';
+import img4 from '../store/4.jpg';
 
 const Carousel = () => {
   return (
@@ -15,6 +16,7 @@ const Carousel = () => {
         <button type="button" data-bs-target="#taknikCarousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#taknikCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
         <button type="button" data-bs-target="#taknikCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#taknikCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
       </div>
 
       {/* Carousel Inner */}
@@ -22,7 +24,7 @@ const Carousel = () => {
         {/* Slide 1 */}
         <div className="carousel-item active">
           <img src={img1} className="d-block w-100" style={{ 
-            height: '524px', 
+            height: '900px', 
             objectFit: 'contain', 
             backgroundColor: 'transparent',
             margin: '0 auto' // Center the image
@@ -45,7 +47,7 @@ const Carousel = () => {
         {/* Slide 2 */}
         <div className="carousel-item">
           <img src={img2} className="d-block w-100" style={{ 
-            height: '524px', 
+            height: '900px', 
             objectFit: 'contain', 
             backgroundColor: 'transparent',
             margin: '0 auto' // Center the image
@@ -68,11 +70,34 @@ const Carousel = () => {
         {/* Slide 3 */}
         <div className="carousel-item">
           <img src={img3} className="d-block w-100" style={{ 
-            height: '524px', 
+            height: '900px', 
             objectFit: 'contain', 
             backgroundColor: 'transparent',
             margin: '0 auto' // Center the image
           }} alt="Slide 3" />
+          <div className="container">
+            <div className="carousel-caption text-end">
+              <h1>One more for good measure.</h1>
+              <p>
+                Some representative placeholder content for the third slide of this carousel.
+              </p>
+              <p>
+                <a className="btn btn-lg btn-primary" href="#">
+                  Browse gallery
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Slide 4 */}
+        <div className="carousel-item">
+          <img src={img4} className="d-block w-100" style={{ 
+            height: '900px', 
+            objectFit: 'contain', 
+            backgroundColor: 'transparent',
+            margin: '0 auto' // Center the image
+          }} alt="Slide 4" />
           <div className="container">
             <div className="carousel-caption text-end">
               <h1>One more for good measure.</h1>
