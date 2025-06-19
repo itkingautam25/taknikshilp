@@ -1,14 +1,12 @@
-/* src/index.css */
-
 /* Light Theme (Default) */
 :root {
     --bs-body-bg: #ffffff;
     --bs-body-color: #212529;
     --bs-border-color: #dee2e6;
     --bs-emphasis-color: #000;
-    --bs-secondary-bg: #f8f9fa; /* Used for lighter backgrounds like cards, offcanvas */
-    --bs-tertiary-bg: #ffffff; /* Can be used for distinct sections, default is body bg */
-    --bs-primary-rgb: 13, 110, 253; /* For Bootstrap's primary color */
+    --bs-secondary-bg: #f8f9fa;
+    --bs-tertiary-bg: #ffffff;
+    --bs-primary-rgb: 13, 110, 253;
     --bs-primary: #0d6efd;
 
     /* TaknikShilp Specific Variables */
@@ -21,35 +19,33 @@
     --taknikshilp-footer-border: var(--bs-border-color);
     --taknikshilp-modal-bg: var(--bs-body-bg);
     --taknikshilp-text-muted: #6c757d;
-
-    /* Logo specific colors (can be overridden in dark mode if needed) */
+    --taknikshilp-header-bg-rgb: 255, 255, 255;
+    --taknikshilp-modal-bg-rgb: 255, 255, 255;
     --taknikshilp-logo-taknik-color: #0d3b66;
     --taknikshilp-logo-shilp-color: #f39200;
 }
 
 /* Dark Theme */
 .dark-mode {
-    --bs-body-bg: #121212; /* Common dark background */
-    --bs-body-color: #e0e0e0; /* Lighter text */
-    --bs-border-color: #343a40; /* Darker borders */
+    --bs-body-bg: #121212;
+    --bs-body-color: #e0e0e0;
+    --bs-border-color: #444;
     --bs-emphasis-color: #ffffff;
-    --bs-secondary-bg: #212529;
-    --bs-tertiary-bg: #1a1d20;
-    --bs-primary-rgb: 130, 177, 255; /* Lighter blue for dark mode */
-    --bs-primary: #82b1ff;
-
-
-    /* TaknikShilp Specific Variables for Dark Mode */
-    --taknikshilp-brand-primary: #79a6dc; /* Lighter version of your blue */
-    --taknikshilp-brand-secondary: #f5a623; /* Adjust orange if needed */
+    --bs-secondary-bg: #1e1e1e;
+    --bs-tertiary-bg: #252525;
+    --bs-primary-rgb: 100, 150, 255;
+    --bs-primary: #6496ff;
+    --taknikshilp-brand-primary: #79a6dc;
+    --taknikshilp-brand-secondary: #f5a623;
     --taknikshilp-brand-primary-rgb: 121, 166, 220;
     --taknikshilp-link-color: var(--taknikshilp-brand-primary);
     --taknikshilp-header-bg: #1a1d20;
     --taknikshilp-header-border: #343a40;
     --taknikshilp-footer-border: #343a40;
-    --taknikshilp-modal-bg: #2c3034; /* Slightly lighter than body for modals */
-    --taknikshilp-text-muted: #adb5bd;
-
+    --taknikshilp-modal-bg: #2c3034;
+    --taknikshilp-text-muted: #a0a0a0;
+    --taknikshilp-header-bg-rgb: 26, 29, 32;
+    --taknikshilp-modal-bg-rgb: 44, 48, 52;
     --taknikshilp-logo-taknik-color: #79a6dc;
     --taknikshilp-logo-shilp-color: #f5a623;
 }
@@ -60,7 +56,18 @@ body {
     transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-/* General component styling using variables */
+/* Transparent UI Effects */
+.app-header {
+    backdrop-filter: blur(10px);
+    background-color: rgba(var(--taknikshilp-header-bg-rgb), 0.85) !important;
+}
+
+.modal-content {
+    backdrop-filter: blur(10px);
+    background-color: rgba(var(--taknikshilp-modal-bg-rgb), 0.9) !important;
+}
+
+/* General component styling */
 .border-top { border-top: 1px solid var(--taknikshilp-footer-border) !important; }
 .border-bottom { border-bottom: 1px solid var(--taknikshilp-header-border) !important; }
 
@@ -90,67 +97,72 @@ body {
 }
 .dark-mode .form-control::placeholder { color: #6c757d; }
 
-/* Specific styles for TaknikShilp logo text */
+/* Logo text */
 .taknikshilp-logo-taknik { color: var(--taknikshilp-logo-taknik-color); }
 .taknikshilp-logo-shilp { color: var(--taknikshilp-logo-shilp-color); }
 
 /* Header tab styling */
 .header-nav-tabs {
-    flex-grow: 1; /* Allows tabs to take available space and center */
+    flex-grow: 1;
     display: flex;
     justify-content: center;
 }
 
 .header-nav-tabs .nav-item .nav-link {
     font-weight: bold;
-    color: var(--bs-body-color); /* Default color for tabs */
-    border: 2px solid transparent; /* Transparent border for spacing */
-    border-bottom-color: transparent; /* Ensure bottom is transparent initially */
-    margin-bottom: -1px; /* Align with Bootstrap's border behavior if header has border */
+    color: var(--bs-body-color);
+    border: 2px solid transparent;
+    border-bottom-color: transparent;
+    margin-bottom: -1px;
 }
 
 .header-nav-tabs .nav-item .nav-link.active {
     color: var(--taknikshilp-brand-primary) !important;
-    border-color: transparent transparent var(--taknikshilp-brand-primary) transparent; /* Bottom border active */
+    border-color: transparent transparent var(--taknikshilp-brand-primary) transparent;
 }
 .header-nav-tabs .nav-item .nav-link:hover {
-    border-bottom-color: var(--bs-border-color); /* Subtle hover effect */
+    border-bottom-color: var(--bs-border-color);
     color: var(--taknikshilp-brand-primary);
 }
 .header-nav-tabs .nav-item .nav-link.active:hover {
-    border-bottom-color: var(--taknikshilp-brand-primary); /* Keep active color on hover */
+    border-bottom-color: var(--taknikshilp-brand-primary);
 }
 
-/* Ensure header itself uses theme variables */
-.app-header { /* We will add this class to the header's root div */
-    background-color: var(--taknikshilp-header-bg);
-    /* border-bottom handled by Bootstrap's border-bottom class which now uses variables */
-}
-
-/* Ensure Carousel controls are visible in dark mode */
+/* Carousel controls */
 .dark-mode .carousel-control-prev-icon,
 .dark-mode .carousel-control-next-icon {
     filter: invert(1) grayscale(100%);
 }
-/* Ensure Carousel indicators are visible */
 .dark-mode .carousel-indicators [data-bs-target] {
-    background-color: #fff; /* Or a light gray */
+    background-color: #fff;
 }
 
-/* General button theming for primary action (if not using Bootstrap's default) */
+/* Button theming */
 .btn-taknikshilp-primary {
     background-color: var(--taknikshilp-brand-primary);
     border-color: var(--taknikshilp-brand-primary);
     color: #ffffff;
 }
 .dark-mode .btn-taknikshilp-primary {
-    color: var(--bs-body-bg); /* Dark text on lighter primary button in dark mode */
+    color: var(--bs-body-bg);
 }
 .btn-taknikshilp-primary:hover {
-    /* Define hover state, e.g., slightly darker/lighter */
     opacity: 0.85;
-    color: #ffffff; /* Ensure text color remains consistent on hover */
+    color: #ffffff;
 }
 .dark-mode .btn-taknikshilp-primary:hover {
     color: var(--bs-body-bg);
+}
+
+/* AOS animations */
+[data-aos] {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+[data-aos="fade-up"] {
+    transform: translateY(20px);
+    opacity: 0;
+}
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+    opacity: 1;
 }

@@ -1,12 +1,9 @@
-// src/components/Header.jsx
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Keep this for Bootstrap base
-import logo from '../assets/logo.png';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import logo from '../assets/logo.png';
 
-// Note: activeTab and onTabChange come from App.jsx props
 const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -15,14 +12,12 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signupForm, setSignupForm] = useState({ name: '', age: '', sex: '', email: '', password: '' });
 
-  // ... (keep your existing login, signup, logout, input handlers)
   const handleLogin = (e) => {
     e.preventDefault();
     if (!loginForm.email || !loginForm.password) {
       alert('Please fill in all fields');
       return;
     }
-    console.log('Login submitted:', loginForm);
     setUser({ name: loginForm.email.split('@')[0], email: loginForm.email });
     setIsLoggedIn(true);
     setShowLoginModal(false);
@@ -32,10 +27,9 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
   const handleSignup = (e) => {
     e.preventDefault();
     if (!signupForm.name || !signupForm.age || !signupForm.sex || !signupForm.email || !signupForm.password) {
-      alert('Please fill in all fields for signup (Name, Age, Sex, Email, Password).');
+      alert('Please fill in all fields for signup');
       return;
     }
-    console.log('Signup submitted:', signupForm);
     setShowSignupModal(false);
     setSignupForm({ name: '', age: '', sex: '', email: '', password: '' });
     alert('Signup successful! You can now log in.');
@@ -57,7 +51,6 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
     setSignupForm(prev => ({ ...prev, [name]: value }));
   };
 
-
   const tabs = [
     { id: 'Home', label: 'Home' },
     { id: 'Contracts', label: 'Contracts' },
@@ -66,31 +59,24 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
   ];
 
   return (
-    // Added 'app-header' class for specific header styling from index.css
-    <header className="app-header sticky-top"> {/* Added sticky-top for better UX */}
-      <div className="px-3 py-2 border-bottom"> {/* This border-bottom will now use CSS vars */}
+    <header className="app-header sticky-top">
+      <div className="px-3 py-2 border-bottom">
         <div className="container">
-          {/* Main flex container for header items */}
           <div className="d-flex flex-wrap align-items-center justify-content-between">
-            {/* Logo - takes its own space */}
             <a href="#" onClick={() => onTabChange('Home')} className="d-flex align-items-center text-decoration-none mb-2 mb-lg-0">
               <img src={logo} alt="TaknikShilp Logo" style={{ height: '40px', marginRight: '10px' }} />
               <span className="fs-4">
-                {/* Apply classes for themable logo text */}
                 <span className="taknikshilp-logo-taknik">Taknik</span>
                 <span className="taknikshilp-logo-shilp">Shilp</span>
               </span>
             </a>
 
-            {/* Navigation Tabs - will grow and center */}
-            {/* Added 'header-nav-tabs' class for centering and styling from index.css */}
             <ul className="nav nav-tabs col-12 col-lg-auto mb-2 justify-content-center mb-md-0 header-nav-tabs" style={{ borderBottom: 'none' }}>
               {tabs.map(tab => (
                 <li key={tab.id} className="nav-item">
                   <button
                     className={`nav-link px-2 ${activeTab === tab.id ? 'active' : ''}`}
                     onClick={() => onTabChange(tab.id)}
-                    // Removed inline styles, rely on index.css for tab styling (bold, colors)
                   >
                     {tab.label}
                   </button>
@@ -98,29 +84,27 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
               ))}
             </ul>
 
-            {/* Search, Auth, and Theme Toggle - takes its own space */}
             <div className="d-flex align-items-center mt-2 mt-lg-0">
-              <form className="me-2" role="search" onSubmit={(e) => e.preventDefault()}>
+              <form className="me-2 position-relative" role="search" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="search"
-                  className="form-control form-control-sm"
+                  className="form-control form-control-sm ps-4"
                   placeholder="Search..."
                   aria-label="Search"
                 />
+                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2"></i>
               </form>
 
-              {/* Theme Toggle Button */}
               <Button
                 variant="outline-secondary"
                 onClick={toggleTheme}
-                className="me-2 btn-sm p-1" /* Adjusted padding */
-                aria-label={currentTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+                className="me-2 btn-sm p-1"
+                aria-label={currentTheme.includes('dark') ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {currentTheme === 'light' ? <i className="bi bi-moon-stars-fill fs-5"></i> : <i className="bi bi-sun-fill fs-5"></i>}
+                {currentTheme.includes('dark') ? <i className="bi bi-sun-fill fs-5"></i> : <i className="bi bi-moon-stars-fill fs-5"></i>}
               </Button>
 
               {isLoggedIn ? (
-                // ... (keep existing logged-in dropdown)
                 <div className="dropdown text-end">
                   <a href="#" className="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="bi bi-person-circle fs-5 me-1"></i>
@@ -128,23 +112,23 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
                   </a>
                   <ul className="dropdown-menu text-small">
                     <li>
-                        <button className="dropdown-item" onClick={handleLogout}>
-                            Logout
-                        </button>
+                      <button className="dropdown-item" onClick={handleLogout}>
+                        Logout
+                      </button>
                     </li>
                   </ul>
                 </div>
               ) : (
                 <>
                   <Button
-                    variant="outline-primary" // Uses Bootstrap's primary color, themed by CSS vars
+                    variant="outline-primary"
                     className="me-2"
                     onClick={() => setShowLoginModal(true)}
                   >
                     Login
                   </Button>
                   <Button
-                    variant="primary" // Uses Bootstrap's primary color
+                    variant="primary"
                     onClick={() => setShowSignupModal(true)}
                   >
                     Sign-up
@@ -156,8 +140,6 @@ const Header = ({ activeTab, onTabChange, currentTheme, toggleTheme }) => {
         </div>
       </div>
 
-      {/* Login and Signup Modals ... (keep existing modal structure) */}
-      {/* Modals will automatically pick up dark/light theme styles via .modal-content in index.css */}
       <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Login to TaknikShilp</Modal.Title>

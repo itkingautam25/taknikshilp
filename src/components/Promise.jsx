@@ -1,53 +1,63 @@
 // src/components/Promise.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import promiseImage from '../store/promise.jpg'; // <-- IMPORT THE IMAGE
 
-const PromiseComponent = () => { // Renamed component to PromiseComponent
+const PromiseComponent = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
+
   const styles = {
     section: {
       padding: '3rem 0',
     },
     logoImg: {
       width: '100%',
-      maxWidth: '400px', // Adjusted for better responsiveness
-      height: 'auto',   // Maintain aspect ratio
+      maxWidth: '800px',
+      height: 'auto',
       display: 'block',
-      margin: '0 auto 2rem auto', // Added bottom margin for spacing on small screens
-      borderRadius: '8px', // Optional: add some rounded corners
-      boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Optional: subtle shadow
+      margin: '0 auto 2rem auto',
+      borderRadius: '8px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     },
     heading: {
       fontWeight: 'bold',
-      color: '#0d3b66', // Using your brand color
+      color: '#0d3b66',
       marginBottom: '1rem',
-      textAlign: 'center', // Center heading on small screens
+      textAlign: 'center',
     },
     leadText: {
       fontSize: '1.1rem',
-      color: '#495057', // Slightly darker for better readability
+      color: '#495057',
       lineHeight: '1.7',
-      textAlign: 'center', // Center text on small screens
+      textAlign: 'center',
     },
     button: {
-      padding: '0.75rem 1.75rem', // Larger button
+      padding: '0.75rem 1.75rem',
       fontSize: '1.1rem',
       marginTop: '1.5rem',
-      backgroundColor: '#f39200', // Using your brand color
+      backgroundColor: '#f39200',
       borderColor: '#f39200',
-      display: 'block', // Make button block for centering
-      width: 'fit-content', // Adjust width to content
-      margin: '1.5rem auto 0 auto', // Center the button
+      display: 'block',
+      width: 'fit-content',
+      margin: '1.5rem auto 0 auto',
     },
   };
 
   return (
     <section className="container" style={styles.section}>
-      <div className="row align-items-center flex-column-reverse flex-md-row"> {/* Reverses order on small screens */}
-        {/* Right Side - Our Promise Text (appears first on small screens due to flex-column-reverse) */}
-        <div className="col-md-6">
-          <div className="p-3 p-md-5"> {/* Added padding */}
+      <div className="row align-items-center flex-column-reverse flex-md-row">
+        {/* Right Side - Text Content */}
+        <div className="col-md-6" data-aos="fade-up">
+          <div className="p-3 p-md-5">
             <h1 style={styles.heading}>Our Promise</h1>
             <p style={styles.leadText}>
               “Crafting Reliable Tech Solutions with Precision and Innovation” <br /><br />
@@ -58,12 +68,12 @@ const PromiseComponent = () => { // Renamed component to PromiseComponent
             </button>
           </div>
         </div>
-        {/* Left Side - Image (appears second on small screens) */}
-        <div className="col-md-6 text-center">
+
+        {/* Left Side - Image */}
+        <div className="col-md-6 text-center" data-aos="fade-right">
           <img
-            src={promiseImage} // <-- USE THE IMPORTED IMAGE
+            src={promiseImage}
             alt="Taknik Shilp Promise"
-            // height and width removed to rely on maxWidth and auto height for responsiveness
             style={styles.logoImg}
           />
         </div>
@@ -72,4 +82,4 @@ const PromiseComponent = () => { // Renamed component to PromiseComponent
   );
 };
 
-export default PromiseComponent; // Export as PromiseComponent
+export default PromiseComponent;

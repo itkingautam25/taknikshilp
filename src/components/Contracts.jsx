@@ -1,4 +1,3 @@
-// src/components/Contracts.jsx
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -12,21 +11,33 @@ const Contracts = () => {
     lastName: '',
     dob: '',
     age: '',
-    sex: '', // Male, Female, Other
+    sex: '',
     mobileNumber: '',
     nationality: '',
     email: '',
     currentAddress: '',
     aadharNumber: '',
     profession: '',
-    spouseName: '', // Optional
+    spouseName: '',
+    spouseAadhar: '',
+    childrenCount: '',
+    pincode: '',
+    digiPin: '',
+    policeStation: '',
+    municipality: '',
+    block: '',
     areaSqFt: '',
-    buildingType: 'Residential', // Default: Residential, Commercial
+    buildingType: 'Residential',
+    registryPapers: null,
+    mutationPapers: null,
+    municipalityTaxPapers: null,
+    blockTaxPapers: null,
+    aadharCard: null,
+    autocadMap: null
   });
 
   const [errors, setErrors] = useState({});
 
-  // Calculate age automatically when DOB changes
   useEffect(() => {
     if (formData.dob) {
       const birthDate = new Date(formData.dob);
@@ -48,9 +59,8 @@ const Contracts = () => {
       ...prev,
       [name]: value,
     }));
-     // Clear specific error when user starts typing
-     if (errors[name]) {
-        setErrors(prev => ({...prev, [name]: null}));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: null }));
     }
   };
 
@@ -61,8 +71,15 @@ const Contracts = () => {
       [name]: value,
     }));
     if (errors[name]) {
-        setErrors(prev => ({...prev, [name]: null}));
+      setErrors(prev => ({ ...prev, [name]: null }));
     }
+  };
+
+  const handleFileChange = (name, files) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: files[0]
+    }));
   };
 
   const validateForm = () => {
@@ -81,6 +98,14 @@ const Contracts = () => {
     if (!formData.aadharNumber.trim()) newErrors.aadharNumber = 'Aadhar number is required.';
     else if (!/^\d{12}$/.test(formData.aadharNumber)) newErrors.aadharNumber = 'Aadhar number must be 12 digits.';
     if (!formData.profession.trim()) newErrors.profession = 'Profession is required.';
+    if (!formData.spouseAadhar.trim() && formData.spouseName.trim()) newErrors.spouseAadhar = 'Spouse Aadhar is required if spouse name is provided';
+    else if (formData.spouseAadhar.trim() && !/^\d{12}$/.test(formData.spouseAadhar)) newErrors.spouseAadhar = 'Aadhar number must be 12 digits';
+    if (!formData.pincode.trim()) newErrors.pincode = 'Pincode is required.';
+    else if (!/^\d{6}$/.test(formData.pincode)) newErrors.pincode = 'Pincode must be 6 digits.';
+    if (!formData.digiPin.trim()) newErrors.digiPin = 'Digital PIN is required.';
+    if (!formData.policeStation.trim()) newErrors.policeStation = 'Police Station is required.';
+    if (!formData.municipality.trim()) newErrors.municipality = 'Municipality is required.';
+    if (!formData.block.trim()) newErrors.block = 'Block is required.';
     if (!formData.areaSqFt.trim()) newErrors.areaSqFt = 'Area in sq ft is required.';
     else if (isNaN(formData.areaSqFt) || Number(formData.areaSqFt) <= 0) newErrors.areaSqFt = 'Area must be a valid positive number.';
     if (!formData.buildingType) newErrors.buildingType = 'Please select a building type.';
@@ -94,15 +119,6 @@ const Contracts = () => {
     if (validateForm()) {
       console.log('Contract Form Data Submitted:', formData);
       alert('Contract application submitted successfully! We will review your details and get back to you.');
-      // Here, you would typically send formData to a backend API
-      // Optionally, reset the form:
-      // setFormData({
-      //   firstName: '', lastName: '', dob: '', age: '', sex: '',
-      //   mobileNumber: '', nationality: '', email: '', currentAddress: '',
-      //   aadharNumber: '', profession: '', spouseName: '', areaSqFt: '',
-      //   buildingType: 'Residential',
-      // });
-      // setErrors({});
     } else {
       console.log('Form validation failed:', errors);
       alert('Please correct the errors highlighted in the form.');
@@ -110,7 +126,7 @@ const Contracts = () => {
   };
 
   return (
-    <div className="container my-5"> {/* Added my-5 for margin top and bottom */}
+    <div className="container my-5" data-aos="fade-up">
       <h2 className="mb-4 text-center">Contract Application Form</h2>
       <p className="mb-4 text-muted text-center">
         Please fill out the details below to apply for a contract. All fields marked with an asterisk (*) are mandatory.
@@ -293,6 +309,103 @@ const Contracts = () => {
             />
           </Form.Group>
 
+          <Form.Group as={Col} md="6" controlId="contractSpouseAadhar">
+            <Form.Label>Spouse's Aadhar Number</Form.Label>
+            <Form.Control
+              type="text"
+              name="spouseAadhar"
+              placeholder="12-digit number"
+              value={formData.spouseAadhar}
+              onChange={handleChange}
+              isInvalid={!!errors.spouseAadhar}
+              maxLength="12"
+            />
+            <Form.Control.Feedback type="invalid">{errors.spouseAadhar}</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+
+        <Row className="mb-3">
+          <Form.Group as={Col} md="4" controlId="contractChildrenCount">
+            <Form.Label>Number of Children</Form.Label>
+            <Form.Control
+              type="number"
+              name="childrenCount"
+              value={formData.childrenCount}
+              onChange={handleChange}
+              min="0"
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} md="4" controlId="contractPincode">
+            <Form.Label>Pincode *</Form.Label>
+            <Form.Control
+              type="text"
+              name="pincode"
+              value={formData.pincode}
+              onChange={handleChange}
+              isInvalid={!!errors.pincode}
+              maxLength="6"
+              required
+            />
+            <Form.Control.Feedback type="invalid">{errors.pincode}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Col} md="4" controlId="contractDigiPin">
+            <Form.Label>Digital PIN *</Form.Label>
+            <Form.Control
+              type="password"
+              name="digiPin"
+              value={formData.digiPin}
+              onChange={handleChange}
+              isInvalid={!!errors.digiPin}
+              required
+            />
+            <Form.Control.Feedback type="invalid">{errors.digiPin}</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+
+        <Row className="mb-3">
+          <Form.Group as={Col} md="4" controlId="contractPoliceStation">
+            <Form.Label>Police Station *</Form.Label>
+            <Form.Control
+              type="text"
+              name="policeStation"
+              value={formData.policeStation}
+              onChange={handleChange}
+              isInvalid={!!errors.policeStation}
+              required
+            />
+            <Form.Control.Feedback type="invalid">{errors.policeStation}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Col} md="4" controlId="contractMunicipality">
+            <Form.Label>Municipality *</Form.Label>
+            <Form.Control
+              type="text"
+              name="municipality"
+              value={formData.municipality}
+              onChange={handleChange}
+              isInvalid={!!errors.municipality}
+              required
+            />
+            <Form.Control.Feedback type="invalid">{errors.municipality}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Col} md="4" controlId="contractBlock">
+            <Form.Label>Block *</Form.Label>
+            <Form.Control
+              type="text"
+              name="block"
+              value={formData.block}
+              onChange={handleChange}
+              isInvalid={!!errors.block}
+              required
+            />
+            <Form.Control.Feedback type="invalid">{errors.block}</Form.Control.Feedback>
+          </Form.Group>
+        </Row>
+
+        <Row className="mb-3">
           <Form.Group as={Col} md="6" controlId="contractAreaSqFt">
             <Form.Label>Area in sq ft *</Form.Label>
             <Form.Control
@@ -306,34 +419,90 @@ const Contracts = () => {
             />
             <Form.Control.Feedback type="invalid">{errors.areaSqFt}</Form.Control.Feedback>
           </Form.Group>
+
+          <Form.Group as={Col} md="6" controlId="contractBuildingType">
+            <Form.Label>Building Type *</Form.Label>
+            <div>
+              {['Residential', 'Commercial'].map((type) => (
+                <Form.Check
+                  inline
+                  key={type}
+                  label={type}
+                  name="buildingType"
+                  type="radio"
+                  id={`contractBuildingType-${type}`}
+                  value={type}
+                  checked={formData.buildingType === type}
+                  onChange={handleRadioChange}
+                  isInvalid={!!errors.buildingType}
+                  required
+                />
+              ))}
+            </div>
+            {errors.buildingType && <div className="invalid-feedback d-block">{errors.buildingType}</div>}
+          </Form.Group>
         </Row>
 
-        <Form.Group className="mb-4" controlId="contractBuildingType">
-          <Form.Label>Building Type *</Form.Label>
-          <div>
-            {['Residential', 'Commercial'].map((type) => (
-              <Form.Check
-                inline
-                key={type}
-                label={type}
-                name="buildingType"
-                type="radio"
-                id={`contractBuildingType-${type}`}
-                value={type}
-                checked={formData.buildingType === type}
-                onChange={handleRadioChange}
-                isInvalid={!!errors.buildingType}
-                required
-              />
-            ))}
-          </div>
-          {errors.buildingType && <div className="invalid-feedback d-block">{errors.buildingType}</div>}
-        </Form.Group>
+        <h5 className="mt-4 mb-3">Required Documents</h5>
+        <Row className="mb-3">
+          <Form.Group as={Col} md="6" controlId="contractRegistryPapers">
+            <Form.Label>Registry Papers (PDF)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handleFileChange('registryPapers', e.target.files)}
+            />
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="contractMutationPapers">
+            <Form.Label>Mutation Papers (PDF)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handleFileChange('mutationPapers', e.target.files)}
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} md="6" controlId="contractMunicipalityTax">
+            <Form.Label>Municipality Tax Papers (PDF)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handleFileChange('municipalityTaxPapers', e.target.files)}
+            />
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="contractBlockTax">
+            <Form.Label>Block Tax Papers (PDF)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handleFileChange('blockTaxPapers', e.target.files)}
+            />
+          </Form.Group>
+        </Row>
+        <Row className="mb-3">
+          <Form.Group as={Col} md="6" controlId="contractAadharCard">
+            <Form.Label>Aadhar Card (PDF)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handleFileChange('aadharCard', e.target.files)}
+            />
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="contractAutocadMap">
+            <Form.Label>Autocad Map (PDF)</Form.Label>
+            <Form.Control
+              type="file"
+              accept=".pdf"
+              onChange={(e) => handleFileChange('autocadMap', e.target.files)}
+            />
+          </Form.Group>
+        </Row>
 
         <div className="text-center">
-            <Button variant="primary" type="submit" size="lg">
+          <Button variant="primary" type="submit" size="lg">
             Submit Application
-            </Button>
+          </Button>
         </div>
       </Form>
     </div>
